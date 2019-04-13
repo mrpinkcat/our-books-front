@@ -1,5 +1,5 @@
 <template>
-  <div class="login-button button">
+  <button class="login-button button">
     <svg version="1.1" class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="612px" height="612px" viewBox="0 0 612 612" style="enable-background:new 0 0 612 612;" xml:space="preserve">
       <g>
@@ -17,7 +17,7 @@
       </g>
     </svg>
     <span>Connexion</span>
-  </div>
+  </button>
 </template>
 
 <script lang="ts">
@@ -34,11 +34,15 @@ export default class LoginButton extends Vue {}
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
-  height: 130px;
-  width: 130px;
+  height: 154px;
+  width: 154px;
   background: #29a19c;
   border: 2px solid transparent;
   border-radius: 10px;
+  user-select: none;
+  font-family: 'Merriweather', serif;
+  font-size: 16px;
+  cursor: pointer;
   &:hover {
     border: 2px solid #a3f7bf;
     transition-duration: .2s;

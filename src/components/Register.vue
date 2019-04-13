@@ -1,5 +1,5 @@
 <template>
-  <div class="register-button button">
+  <button class="register-button button">
     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 286.357 286.357" xmlns:xlink="http://www.w3.org/1999/xlink" enable-background="new 0 0 286.357 286.357">
       <g>
         <path d="m106.073,176.137c-3.866,0-7,3.134-7,7v31.744l-26.627-35.913c-1.799-2.427-4.951-3.424-7.818-2.478-2.868,0.947-4.805,3.627-4.805,6.647v49.065c0,3.866 3.134,7 7,7s7-3.134 7-7v-27.871l26.627,35.913c1.346,1.815 3.449,2.832 5.624,2.832 0.732,0 1.472-0.115 2.194-0.354 2.868-0.947 4.805-3.627 4.805-6.647v-52.938c-1.42109e-14-3.866-3.134-7-7-7z"/>
@@ -11,7 +11,7 @@
       </g>
     </svg>
     <span>Enregistrement</span>
-  </div>
+  </button>
 </template>
 
 <script lang="ts">
@@ -30,11 +30,15 @@ export default class RegisterButton extends Vue {
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
-  height: 130px;
-  width: 130px;
+  height: 154px;
+  width: 154px;
   background: #29a19c;
   border: 2px solid transparent;
   border-radius: 10px;
+  user-select: none;
+  font-family: 'Merriweather', serif;
+  font-size: 16px;
+  cursor: pointer;
   &:hover {
     border: 2px solid #a3f7bf;
     transition-duration: .2s;

@@ -47,6 +47,7 @@ export default class Logo extends Vue {
       font-size: 30px;
       color: #a3f7bf;
       font-weight: bold;
+      user-select: none;
     }
   }
 }

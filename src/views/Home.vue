@@ -1,15 +1,20 @@
 <template>
   <div class="home">
-    <Spinner text="Vérification de la connexion ..." color="#a3f7bf" v-if="loading"/>
-    <div v-else class="not-log">
-      <Logo/>
-      <div class="buttons">
-        <RegisterButton/>
-        <LoginButton/>
-      </div>
+    <transition name="fade" mode="out-in">
+      <Spinner text="Vérification de la connexion ..." color="#a3f7bf" v-if="loading"/>
+      <div v-else class="not-log">
+        <div class="buttons">
+          <router-link :to="{ name: 'register' }" tag="div">
+            <RegisterButton/>
+          </router-link>
+          <router-link :to="{ name: 'login'}" tag="div">
+            <LoginButton/>
+          </router-link>
+        </div>
 
-      <span class="admin-panel">Panel d'administration</span>
-    </div>
+        <span class="admin-panel">Panel d'administration</span>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -29,13 +34,19 @@ import Spinner from '@/components/Spinner.vue';
   },
 })
 export default class Home extends Vue {
-  private loading: boolean = false;
+  private loading: boolean = true;
+
+  private mounted() {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1500);
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .home {
-  height: 100%;
+  height: calc(100% - 80px);
 
   display: flex;
   flex-direction: column;
@@ -52,7 +63,7 @@ export default class Home extends Vue {
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      .button {
+      div {
         margin: 10px;
       }
     }
