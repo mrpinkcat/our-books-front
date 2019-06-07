@@ -2,22 +2,32 @@
   <div class="login">
     <h2>Création de compte</h2>
     <div class="box">
+
       <span>Nom d'utilisateur</span>
       <input type="text" v-model="username" @keyup.enter="submit" :class="{ errorinput: usernameError }">
       <div class="error">
         <span class="username" v-if="usernameError">Le nom d'utilisateur doit faire entre 3 et 15 caracteres</span>
       </div>
+      
       <span>Mot de passe</span>
       <div class="password-row">
-      <input class="password" :type="showPasswordType" v-model="password" @keyup.enter="submit" :class="{ errorinput: passwordError }">
-      <div class="toogle-show-password-box">
-        <input type="checkbox" id="toogle-show-password" v-model="showPassword">
-        <label for="toogle-show-password">Afficher le mot de passe</label>
+        <input class="password" :type="showPasswordType" v-model="password" @keyup.enter="submit" :class="{ errorinput: passwordError }">
+        <div class="toogle-show-password-box">
+          <input type="checkbox" id="toogle-show-password" v-model="showPassword">
+          <label for="toogle-show-password">Afficher le mot de passe</label>
+        </div>
       </div>
-      </div>
+
       <div class="error">
         <span class="username" v-if="passwordError">Le mot de passe ne respecte pas les conditions</span>
       </div>
+
+      <span>Nom et prénom</span>
+      <input type="text" v-model="fullName" @keyup.enter="submit">
+
+      <span>Date de naissance</span>
+      <input type="date" v-model="birthDate" @keyup.enter="submit">
+
       <p>Le mot de passe doit contenir au moins:
         <ul>
           <li>Entre de 8 et 25 caracteres</li>
@@ -36,7 +46,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator';
-import Logo from '@/components/Logo.vue';
+import Logo from './../components/Logo.vue';
 
 @Component({
   components: {
@@ -46,6 +56,8 @@ import Logo from '@/components/Logo.vue';
 export default class Login extends Vue {
   public username: string = '';
   public password: string = '';
+  public fullName: string = '';
+  public birthDate: string = '';
   public stayConnected: boolean = false;
   public usernameError: boolean = false;
   public passwordError: boolean = false;
@@ -53,7 +65,7 @@ export default class Login extends Vue {
   public showPasswordType: string = 'password';
 
   private submit() {
-    console.log(this.username, this.password);
+    console.log(this.username, this.password, this.fullName, this.birthDate);
   }
 
   @Watch('showPassword') 
@@ -109,7 +121,7 @@ export default class Login extends Vue {
         margin: 0;
       }
     }
-    input[type=text], input[type=password] {
+    input[type=text], input[type=password], input[type=date] {
       border: 2px solid transparent;
       transition-duration: .2s;
     }

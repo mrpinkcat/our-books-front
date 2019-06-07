@@ -20,10 +20,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import RegisterButton from '@/components/Register.vue';
-import LoginButton from '@/components/Login.vue';
-import Logo from '@/components/Logo.vue';
-import Spinner from '@/components/Spinner.vue';
+import RegisterButton from './../components/Register.vue';
+import LoginButton from './../components/Login.vue';
+import Logo from './../components/Logo.vue';
+import Spinner from './../components/Spinner.vue';
 
 @Component({
   components: {

@@ -26,7 +26,9 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import Logo from '@/components/Logo.vue';
+import axios from 'axios';
+import cookie from 'js-cookie';
+import Logo from './../components/Logo.vue';
 
 @Component({
   components: {
@@ -41,6 +43,27 @@ export default class Login extends Vue {
   public passwordError: boolean = false;
 
   private submit() {
+    axios.post('http://localhost:3000/auth', {
+      username: this.username,
+      password: this.password,
+    })
+    .then((res) => {
+      cookie.set('token', res.data.token);
+      console.log(`ok ${res.data.token}`);
+      // Logique de redirection vers home ?
+    })
+    .catch((err) => {
+      if (err.response.data.type === 'username') {
+        this.usernameError = true;
+      } else {
+        this.usernameError = false;
+      }
+      if (err.response.data.type === 'password') {
+        this.passwordError = true;
+      } else {
+        this.passwordError = false;
+      }
+    });
   }
 }
 </script>
@@ -100,6 +123,9 @@ export default class Login extends Vue {
       transition-duration: .2s;
     }
     input.errorinput {
+      &:focus {
+        outline-color: red !important;
+      }
       border: 2px solid red;
       transition-duration: .2s;
     }
