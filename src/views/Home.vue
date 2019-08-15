@@ -24,6 +24,7 @@ import RegisterButton from './../components/Register.vue';
 import LoginButton from './../components/Login.vue';
 import Logo from './../components/Logo.vue';
 import Spinner from './../components/Spinner.vue';
+import axios from 'axios';
 
 @Component({
   components: {
@@ -37,9 +38,7 @@ export default class Home extends Vue {
   private loading: boolean = true;
 
   private mounted() {
-    setTimeout(() => {
-      this.loading = false;
-    }, 1500);
+    axios.post('http://localhost:3000')
   }
 }
 </script>

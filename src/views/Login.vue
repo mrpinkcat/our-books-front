@@ -50,6 +50,7 @@ export default class Login extends Vue {
     .then((res) => {
       cookie.set('token', res.data.token);
       console.log(`ok ${res.data.token}`);
+      this.$router.push({ name: 'home' });
       // Logique de redirection vers home ?
     })
     .catch((err) => {
