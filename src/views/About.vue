@@ -1,7 +1,0 @@
-<template>
-  <div class="login">
-    <div class="box">
-      
-    </div>
-  </div>
-</template>

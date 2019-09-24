@@ -23,6 +23,8 @@ export default class Logo extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import './../scss/index.scss';
+
 .logo {
   .first-row {
     display: flex;
@@ -33,10 +35,10 @@ export default class Logo extends Vue {
     .line {
       height: 5px;
       width: 60px;
-      background: #a3f7bf;  
+      background: $primary;  
     }
     .logo-svg {
-      fill: #a3f7bf;
+      fill: $primary;
       height: 40px;
       width: 40px;
       margin: 0 8px -5px 8px;
@@ -45,7 +47,7 @@ export default class Logo extends Vue {
   .text {
     span {
       font-size: 30px;
-      color: #a3f7bf;
+      color: $primary;
       font-weight: bold;
       user-select: none;
     }
