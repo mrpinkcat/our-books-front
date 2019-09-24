@@ -18,11 +18,6 @@
   background: $background-primary;
 }
 
-html, body {
-  margin: 0;
-  height: 100%;
-}
-
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
   
