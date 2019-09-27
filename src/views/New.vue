@@ -1,19 +1,14 @@
 <template>
-  <div class="admin">
-    Je suis admin
+  <div class="new">
+    <span class="title">Les nouveautés</span>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import Logo from './../components/Logo.vue';
 
-@Component({
-  components: {
-    Logo,
-  },
-})
-export default class Admin extends Vue {
+@Component
+export default class New extends Vue {
 
 }
 </script>
@@ -21,7 +16,11 @@ export default class Admin extends Vue {
 <style lang="scss" scoped>
 @import './../scss/index.scss';
 
-.admin {
+.new {
+  padding: 16px;
 
+  .title {
+    font-weight: bold;
+  }
 }
 </style>

@@ -1,4 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,700,900&display=swap');
+
 html, body {
   margin: 0;
   height: 100%;
+  font-size: 18px;
+  font-family: 'Merriweather', serif;
+}
+
+span {
+  text-align: left;
+}
+
+button {
+  border: 0;
+  padding: 4px;
+  font-family: 'Merriweather', serif;
 }

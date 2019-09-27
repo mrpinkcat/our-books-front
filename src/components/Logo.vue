@@ -8,7 +8,7 @@
       <div class="line"></div>
     </div>
     <div class="text">
-      <span>OurBooks</span>
+      <span>Our Books</span>
     </div>
   </div>
 </template>
@@ -33,23 +33,24 @@ export default class Logo extends Vue {
     align-items: flex-end;
     margin-bottom: 4px;
     .line {
-      height: 5px;
-      width: 60px;
-      background: $primary;  
+      height: 4px;
+      width: 40px;
+      background: $secondary;  
     }
     .logo-svg {
-      fill: $primary;
-      height: 40px;
-      width: 40px;
+      fill: $secondary;
+      height: 30px;
+      width: 30px;
       margin: 0 8px -5px 8px;
     }
   }
   .text {
     span {
-      font-size: 30px;
-      color: $primary;
+      font-size: 20px;
+      color: $secondary;
       font-weight: bold;
       user-select: none;
+      letter-spacing: 2px;
     }
   }
 }
