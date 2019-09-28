@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Logo/>
+    <Navbar/>
     <div class="page">
       <LeftMenu/>
       <div class="content">
@@ -14,12 +14,12 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import Logo from './../components/Logo.vue';
+import Navbar from './../components/Navbar.vue';
 import LeftMenu from './../components/LeftMenu.vue';
 
 @Component({
   components: {
-    Logo,
+    Navbar,
     LeftMenu,
   },
 })
@@ -50,7 +50,7 @@ export default class Home extends Vue {
 
       .left-menu {
         background: $background-secondary;
-        width: 200px;
+        width: 250px;
       }
 
       .content {
