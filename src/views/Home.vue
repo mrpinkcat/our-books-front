@@ -4,7 +4,9 @@
     <div class="page">
       <LeftMenu/>
       <div class="content">
-        <router-view></router-view>
+        <transition name="fade" mode="out-in">
+          <router-view/>
+        </transition>
       </div>
     </div>
   </div>
@@ -53,6 +55,12 @@ export default class Home extends Vue {
 
       .content {
         flex-grow: 1;
+
+        & > div {
+          display: flex;
+          justify-content: flex-start;
+          padding: 32px;
+        }
       }
     }
 }

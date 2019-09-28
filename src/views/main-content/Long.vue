@@ -1,6 +1,6 @@
 <template>
-  <div class="new">
-    <span class="title">Les nouveautés</span>
+  <div class="long">
+    <span class="title">Les livres longs</span>
   </div>
 </template>
 
@@ -8,16 +8,15 @@
 import { Vue, Component } from 'vue-property-decorator';
 
 @Component
-export default class New extends Vue {
+export default class Long extends Vue {
 
 }
 </script>
 
 <style lang="scss" scoped>
-@import './../scss/index.scss';
+@import './../../scss/index.scss';
 
-.new {
-  padding: 16px;
+.long {
 
   .title {
     font-weight: bold;

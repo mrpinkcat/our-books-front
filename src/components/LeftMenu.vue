@@ -3,10 +3,36 @@
     <span class="title">Menu</span>
 
     <div class="buttons">
-      <button>
+      <router-link tag="button" :to="{ name: 'new' }">
         <img src="https://via.placeholder.com/20" alt="">
         Nouveautés
-      </button>
+      </router-link>
+
+      <router-link tag="button" :to="{ name: 'trends' }">
+        <img src="https://via.placeholder.com/20" alt="">
+        Tendances
+      </router-link>
+
+      <router-link tag="button" :to="{ name: 'short-books' }">
+        <img src="https://via.placeholder.com/20" alt="">
+        Livres courts
+      </router-link>
+
+      <router-link tag="button" :to="{ name: 'long-books' }">
+        <img src="https://via.placeholder.com/20" alt="">
+        Livres longs
+      </router-link>
+
+      <router-link tag="button" :to="{ name: 'favorites' }">
+        <img src="https://via.placeholder.com/20" alt="">
+        Nos coup de coeur
+      </router-link>
+    </div>
+    
+    <span class="title">Catégories</span>
+
+    <div class="types-buttons">
+
     </div>
   </div>
 </template>
@@ -35,7 +61,7 @@ export default class LeftMenu extends Vue {
 
   .buttons {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     padding: 8px 0;
 
     button {
@@ -43,14 +69,25 @@ export default class LeftMenu extends Vue {
       flex-direction: row;
       align-items: center;
       padding: 8px 16px;
+      margin: 4px 0;
       width: 100%;
 
+      // Transition du background
+      background-color: $background-secondary;
+      background-image: linear-gradient(-90deg, white, rgba(255,255,255,0));
+      transition: background .2s ease-in-out;
+
       &:hover {
-        background: linear-gradient(90deg, rgba(66,185,131,0.5) 0%, rgba(255,255,255,0) 100%);
+        background-color: $secondary-light;
       }
 
       img {
-        margin-right: 8px;
+        margin-right: 12px;
+      }
+
+      &.router-link-exact-active {
+        background-color: $secondary-light;
+        color: $secondary;
       }
     }
   }

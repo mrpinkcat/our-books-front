@@ -10,8 +10,6 @@
 @import './scss/index.scss';
 
 #app {
-  @import url('https://fonts.googleapis.com/css?family=Merriweather:400,700');
-  font-family: 'Merriweather', serif;
   text-align: center;
   color: $primary;
   height: 100%;
