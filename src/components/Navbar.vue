@@ -92,8 +92,8 @@ export default class Navbar extends Vue {
       padding: 0;
 
       img {
-        width: 30px;
-        height: 30px;
+        width: 20px;
+        height: 20px;
       }
     }
   }
