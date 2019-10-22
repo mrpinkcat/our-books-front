@@ -47,6 +47,7 @@ export default class Home extends Vue {
     .page {
       display: flex;
       flex-grow: 1;
+      height: calc(100% - 75px);
 
       .left-menu {
         background: $background-secondary;
