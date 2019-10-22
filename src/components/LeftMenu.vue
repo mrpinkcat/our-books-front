@@ -4,35 +4,55 @@
 
     <div class="buttons">
       <router-link tag="button" :to="{ name: 'new' }">
-        <img src="https://via.placeholder.com/20" alt="">
+        <img src="./../assets/new.svg" alt="">
         Nouveautés
       </router-link>
 
       <router-link tag="button" :to="{ name: 'trends' }">
-        <img src="https://via.placeholder.com/20" alt="">
+        <img src="./../assets/trending.svg" alt="">
         Tendances
       </router-link>
 
       <router-link tag="button" :to="{ name: 'short-books' }">
-        <img src="https://via.placeholder.com/20" alt="">
+        <img src="./../assets/short-books.svg" alt="">
         Livres courts
       </router-link>
 
       <router-link tag="button" :to="{ name: 'long-books' }">
-        <img src="https://via.placeholder.com/20" alt="">
+        <img src="./../assets/long-books.svg" alt="">
         Livres longs
       </router-link>
 
       <router-link tag="button" :to="{ name: 'favorites' }">
-        <img src="https://via.placeholder.com/20" alt="">
+        <img src="./../assets/favorites.svg" alt="">
         Nos coup de coeur
       </router-link>
     </div>
     
-    <span class="title">Catégories</span>
+    <div class="title-container">
+      <span class="title">Catégories</span>
+      <span class="type-quantity">(2)</span>
+    </div>
 
     <div class="types-buttons">
+      <button class="type">
+        <span class="type-name">Romans Policier</span>
+        <span class="book-quantity">666</span>
+      </button>
+      <button class="type">
+        <span class="type-name">Nouvelles</span>
+        <span class="book-quantity">69</span>
+      </button>
+    </div>
 
+    <div class="lib-title-container">
+      <span class="title">Ma Bibliothèque</span>
+      <button class="change">Modifier</button>
+    </div>
+
+    <div class="chosen-library">
+      <span class="lib-name">Bibliothèque de la Longue Berge</span>
+      <span class="lib-address">26 rue du Port de la Creuse<br>23000, Guéret</span>
     </div>
   </div>
 </template>
@@ -53,6 +73,7 @@ export default class LeftMenu extends Vue {
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
+  max-height: 100%;
 
   .title {
     font-weight: bold;
@@ -62,7 +83,6 @@ export default class LeftMenu extends Vue {
   .buttons {
     display: flex;
     flex-direction: column;
-    padding: 8px 0;
 
     button {
       display: flex;
@@ -83,11 +103,90 @@ export default class LeftMenu extends Vue {
 
       img {
         margin-right: 12px;
+        width: 20px;
+        height: 20px;
       }
 
       &.router-link-exact-active {
         background-color: $secondary-light;
         color: $secondary;
+      }
+    }
+  }
+
+  .title-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    .title {
+      padding-right: 8px;
+    }
+
+    .type-quantity {
+      font-size: 12px;
+    }
+  }
+
+  .types-buttons {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    padding: 0 24px;
+    margin-bottom: 32px;
+
+    button.type {
+      padding: 7px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &:hover {
+        span.type-name {
+          text-decoration: underline;
+        }
+      }
+
+      span.book-quantity {
+        font-size: 12px;
+        font-weight: 400;
+      }
+    }
+  }
+
+  .lib-title-container {
+    display: flex;
+
+    .title {
+      flex-grow: 1;
+    }
+
+    .change {
+      font-size: 14px;
+      padding-right: 16px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .chosen-library {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 24px 12px 24px;
+
+    span {
+      text-align: left;
+      width: fit-content;
+
+      &.lib-name {
+        font-size: 16px;
+      }
+
+      &.lib-address {
+        font-size: 12px;
+        margin-top: 6px;
       }
     }
   }
