@@ -45,24 +45,66 @@
       </button>
     </div>
 
-    <div class="lib-title-container">
+    <div class="lib-title-container" v-if="logged">
       <span class="title">Ma Bibliothèque</span>
       <button class="change">Modifier</button>
     </div>
 
-    <div class="chosen-library">
-      <span class="lib-name">Bibliothèque de la Longue Berge</span>
-      <span class="lib-address">26 rue du Port de la Creuse<br>23000, Guéret</span>
+    <div class="chosen-library" v-if="logged">
+      <span class="lib-name" v-if="!libraryName">Chargement...</span>
+      <span class="lib-name" v-if="libraryName">{{libraryName}}</span>
+      <span class="lib-address" v-if="libraryName">{{libraryStreet}}<br>{{libraryZipCode}}, {{libraryCity}}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
+import { mapGetters } from 'vuex'
+import Axios from 'axios';
 
-@Component
+@Component({
+  computed: {
+    ...mapGetters(['libraryId']),
+    ...mapGetters(['logged']),
+  },
+})
 export default class LeftMenu extends Vue {
+  private libraryName = '';
+  private libraryStreet = '';
+  private libraryZipCode = '';
+  private libraryCity = '';
 
+  private mounted() {
+    this.showLibraryName();
+  }
+
+  private showLibraryName() {
+    //@ts-ignore
+    const libraryId: string = this.libraryId;
+
+    Axios.get('http://localhost:3000/libraries')
+    .then((res) => {
+      const libraries: { _id: string, name: string, street: string, city: string, zipCode: number, country: string, __v: number}[] = res.data;
+      
+      const sameLibraryId = (libraries: any) => {
+        //@ts-ignore
+        return libraries._id === this.libraryId;
+      }
+
+      const actualLibrary = libraries.find(sameLibraryId);
+
+      if (actualLibrary) {
+        this.libraryName = actualLibrary.name;
+        this.libraryStreet = actualLibrary.street;
+        this.libraryZipCode = actualLibrary.zipCode.toString();
+        this.libraryCity = actualLibrary.city;
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+    })
+  }
 }
 </script>
 

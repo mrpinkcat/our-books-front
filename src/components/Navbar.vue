@@ -14,10 +14,16 @@
     <div class="filter-dropdown" :class="{ active: filterDropdownActive }">
       fff
     </div>
-    <div class="user-container">
-      <span>{{fullName}}</span>
-      <button>
-        <img id="down-arrow" src="./../assets/down-arrow.png" :class="{ active: userDropdownActive }" @click="userDropdownActive = !userDropdownActive">
+    <div class="user-container" v-if="logged">
+      <button @click="userDropdownActive = !userDropdownActive">
+        <span>{{fullName}}</span>
+        <img id="down-arrow" src="./../assets/down-arrow.png" :class="{ active: userDropdownActive }">
+      </button>
+    </div>
+    <div class="user-container" v-if="!logged">
+      <button @click="$router.push({ name: 'login' })">
+        <span>Connexion</span>
+        <img id="down-arrow" src="./../assets/login.png" >
       </button>
     </div>
     <transition name=""></transition>
@@ -41,6 +47,7 @@ import { mapGetters } from 'vuex';
   computed: {
     ...mapGetters(['fullName']),
     ...mapGetters(['rank']),
+    ...mapGetters(['logged']),
   }
 })
 export default class Navbar extends Vue {
@@ -111,11 +118,17 @@ export default class Navbar extends Vue {
     align-items: center;
 
     button {
-      margin-left: 8px;
       display: flex;
       padding: 0;
+      align-items: center;
+      height: 100%;
+
+      span {
+        font-size: 18px;
+      }
 
       img#down-arrow {
+        margin-left: 8px;
         width: 20px;
         height: 20px;
         transition: ease .2s all;

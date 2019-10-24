@@ -46,5 +46,11 @@ export default new Vuex.Store({
     rank: (state): string | undefined => {
       return state.rank;
     },
+    logged: (state): boolean => {
+      return state.logged;
+    },
+    libraryId: (state): boolean | undefined => {
+      return state.libraryId;
+    },
   },
 });
