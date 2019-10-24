@@ -15,7 +15,7 @@
       fff
     </div>
     <div class="user-container">
-      <span>John Doé</span>
+      <span>{{fullName}}</span>
       <button>
         <img id="down-arrow" src="./../assets/down-arrow.png" :class="{ active: userDropdownActive }" @click="userDropdownActive = !userDropdownActive">
       </button>
@@ -24,7 +24,7 @@
     <div class="user-dropdown" :class="{ active: userDropdownActive }">
       <a href="">Mon compte</a>
       <a href="">Déconexion</a>
-      <a href="">Admin</a>
+      <router-link :to="{ name: 'admin' }" v-if="rank === 'admin'">Admin</router-link>
     </div>
   </div>
 </template>
@@ -32,11 +32,16 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Logo from './Logo.vue';
+import { mapGetters } from 'vuex';
 
 @Component({
   components: {
     Logo,
   },
+  computed: {
+    ...mapGetters(['fullName']),
+    ...mapGetters(['rank']),
+  }
 })
 export default class Navbar extends Vue {
   userDropdownActive: boolean = false;

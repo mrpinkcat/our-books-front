@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Admin from './views/Admin.vue';
+import Login from './views/Login.vue';
 
 import New from './views/main-content/New.vue';
 import Trends from './views/main-content/Trends.vue';
@@ -49,14 +50,9 @@ export default new Router({
       ],
     },
     {
-      path: '/search/:q',
-      name: 'admin',
-      component: Admin,
-    },
-    {
-      path: '/book/:isbn',
-      name: 'admin',
-      component: Admin,
+      path: '/login',
+      name: 'login',
+      component: Login,
     },
     {
       path: '/admin',
