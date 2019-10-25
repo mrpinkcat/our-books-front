@@ -48,7 +48,7 @@ import { mapGetters } from 'vuex';
     ...mapGetters(['fullName']),
     ...mapGetters(['rank']),
     ...mapGetters(['logged']),
-  }
+  },
 })
 export default class Navbar extends Vue {
   userDropdownActive: boolean = false;
