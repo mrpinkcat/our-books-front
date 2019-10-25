@@ -60,7 +60,7 @@
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 import Axios from 'axios';
 
 @Component({
@@ -80,17 +80,25 @@ export default class LeftMenu extends Vue {
   }
 
   private showLibraryName() {
-    //@ts-ignore
+    // @ts-ignore
     const libraryId: string = this.libraryId;
 
     Axios.get('http://localhost:3000/libraries')
     .then((res) => {
-      const libraries: { _id: string, name: string, street: string, city: string, zipCode: number, country: string, __v: number}[] = res.data;
-      
-      const sameLibraryId = (libraries: any) => {
-        //@ts-ignore
-        return libraries._id === this.libraryId;
-      }
+      const libraries: Array<{
+        _id: string,
+        name: string,
+        street: string,
+        city: string,
+        zipCode: number,
+        country: string,
+        __v: number,
+      }> = res.data;
+
+      const sameLibraryId = (argLibraries: any) => {
+        // @ts-ignore
+        return argLibraries._id === this.libraryId;
+      };
 
       const actualLibrary = libraries.find(sameLibraryId);
 
@@ -103,7 +111,7 @@ export default class LeftMenu extends Vue {
     })
     .catch((err) => {
       console.error(err);
-    })
+    });
   }
 }
 </script>
