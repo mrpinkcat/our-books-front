@@ -28,7 +28,7 @@ import { mapMutations } from 'vuex';
   },
   methods: {
     ...mapMutations(['LOGIN']),
-  }
+  },
 })
 export default class Login extends Vue {
   private username: string = '';
@@ -39,7 +39,6 @@ export default class Login extends Vue {
   private login() {
     this.error = '';
     this.errorField = '';
-    console.log('click')
     if (this.username && this.password) {
       axios.post('http://localhost:3000/auth', { username: this.username, password: this.password })
       .then((res) => {
