@@ -166,7 +166,7 @@ export default class Register extends Vue {
       newElCircle.setAttribute('id', elementId);
       newElCircle.style.height = '30px';
       newElCircle.style.width = '30px';
-      newElCircle.style.borderRadius = '15px';
+      newElCircle.style.borderRadius = '50%';
       newElCircle.style.background = 'rgba(66, 185, 131, .4)';
       newElCircle.style.border = 'solid rgb(66, 185, 131) 2px';
       newElCircle.style.margin = '-15px 0 0 -15px';
