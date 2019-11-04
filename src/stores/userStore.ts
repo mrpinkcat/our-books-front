@@ -5,7 +5,7 @@ import VuexPersistence from 'vuex-persist';
 
 Vue.use(Vuex);
 
-interface state {
+interface State {
   logged: boolean;
 
   fullName: string | undefined;
@@ -17,7 +17,7 @@ interface state {
 }
 
 // @ts-ignore
-const plugins: Array<Plugin<state>> = [new VuexPersistence().plugin];
+const plugins: Array<Plugin<State>> = [new VuexPersistence().plugin];
 
 export default new Vuex.Store({
   plugins,
@@ -34,7 +34,7 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    CHANGE_LIBRARY(argState: state, libraryId) {
+    CHANGE_LIBRARY(argState: State, libraryId) {
       axios.post('/user/library', { libraryId }, { headers: {Authorization: `bearer ${argState.token}` } })
       .then(() => {
         argState.libraryId = libraryId;
@@ -43,7 +43,8 @@ export default new Vuex.Store({
         console.error(err);
       });
     },
-    LOGIN(argState: state, userInfo) {
+
+    LOGIN(argState: State, userInfo) {
       argState.logged = true;
       argState.fullName = userInfo.fullName;
       argState.username = userInfo.username;
@@ -52,22 +53,32 @@ export default new Vuex.Store({
       argState.token = userInfo.token;
       argState.libraryId = userInfo.libraryId;
     },
+
+    DISCONNECT(argState: State) {
+      argState.logged = false;
+      argState.fullName = undefined;
+      argState.username = undefined;
+      argState.birthDate = undefined;
+      argState.rank = undefined;
+      argState.token = undefined;
+      argState.libraryId = undefined;
+    }
   },
 
   getters: {
-    token(argState: state): string | undefined {
+    token(argState: State): string | undefined {
       return argState.token;
     },
-    fullName(argState: state): string | undefined {
+    fullName(argState: State): string | undefined {
       return argState.fullName;
     },
-    rank(argState: state): string | undefined {
+    rank(argState: State): string | undefined {
       return argState.rank;
     },
-    logged(argState: state): boolean {
+    logged(argState: State): boolean {
       return argState.logged;
     },
-    libraryId(argState: state): string | undefined {
+    libraryId(argState: State): string | undefined {
       return argState.libraryId;
     },
   },

@@ -6,7 +6,7 @@
     <div class="search-container">
       <img src="./../assets/search.png" alt="">
       <input type="text" placeholder="Recherche ...">
-      <button>
+      <button style="display: none;">
         <img id="down-filter" src="./../assets/filter.png" :class="{ active: filterDropdownActive }" @click="filterDropdownActive = !filterDropdownActive">
       </button>
     </div>
@@ -26,19 +26,20 @@
         <img id="down-arrow" src="./../assets/login.png" >
       </button>
     </div>
-    <transition name=""></transition>
-    <div class="user-dropdown" :class="{ active: userDropdownActive }">
-      <a href="">Mon compte</a>
-      <a href="">Déconexion</a>
-      <router-link :to="{ name: 'admin' }" v-if="rank === 'admin'">Admin</router-link>
-    </div>
+    <transition name="">
+      <div class="user-dropdown" :class="{ active: userDropdownActive }" v-if="logged">
+        <a href="">Mon compte</a>
+        <a @click="DISCONNECT()">Déconexion</a>
+        <router-link :to="{ name: 'admin' }" v-if="rank === 'admin'">Admin</router-link>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Logo from './Logo.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapMutations } from 'vuex';
 
 @Component({
   components: {
@@ -48,6 +49,7 @@ import { mapGetters } from 'vuex';
     ...mapGetters(['fullName']),
     ...mapGetters(['rank']),
     ...mapGetters(['logged']),
+    ...mapMutations(['DISCONNECT']),
   },
 })
 export default class Navbar extends Vue {

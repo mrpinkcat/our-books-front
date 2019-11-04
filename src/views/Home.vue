@@ -56,6 +56,7 @@ export default class Home extends Vue {
 
       .content {
         flex-grow: 1;
+        overflow: scroll;
 
         & > div {
           display: flex;

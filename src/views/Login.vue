@@ -1,7 +1,8 @@
 <template>
   <div class="login">
     <div class="login-container">
-      <logo/>
+      <logo :text="false"/>
+      <span class="title">Connexion</span>
       <label for="username">Nom d'utilisateur</label>
       <input type="text" name="username" v-model="username" :class="{ error: errorField === 'username' }" @keydown.enter="login()">
 
@@ -10,6 +11,7 @@
 
       <button @click="login()" :disabled="username == '' || password == ''">Connexion</button>
 
+      <router-link :to="{ name: 'register' }" class="acount">Pas de compte ?</router-link>
       <span class="error-hint" v-if="errorField === 'username'">Nom d'utilisateur incorrect</span>
       <span class="error-hint" v-if="errorField === 'password'">Mot de passe incorrect</span>
     </div>
@@ -79,7 +81,10 @@ export default class Login extends Vue {
     box-shadow: 0 19px 27px -11px rgba(0, 0, 0, 0.3);
     border-radius: 6px;
 
-    .logo {
+    .title {
+      font-size: 20px;
+      font-weight: bold;
+      color: $secondary;
       margin-bottom: 20px;
     }
 
@@ -102,6 +107,10 @@ export default class Login extends Vue {
       padding: 6px 16px;
       border-radius: 6px;
       box-shadow: 0 10px 27px -11px rgba(0, 0, 0, 0.3);
+
+      &:disabled {
+        cursor: not-allowed;
+      }
     }
 
     .error-hint {
@@ -111,6 +120,16 @@ export default class Login extends Vue {
   
     .error {
       border-color: red;
+    }
+    
+    .acount {
+      margin-top: 20px;
+      font-size: 14px;
+      color: $secondary;
+
+      &:visited {
+        color: $secondary;
+      }
     }
   }
 }
