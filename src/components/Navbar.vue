@@ -1,7 +1,9 @@
 <template>
   <div class="navbar">
     <div class="logo-container">
-      <Logo/>
+      <router-link :to="{ name: 'new' }">
+        <Logo/>
+      </router-link>
     </div>
     <div class="search-container">
       <img src="./../assets/search.png" alt="">
@@ -73,6 +75,10 @@ export default class Navbar extends Vue {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    a {
+      text-decoration: none;
+    }
   }
 
   .search-container {
