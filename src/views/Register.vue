@@ -43,9 +43,16 @@
 
       <div class="position-ok" v-if="position.length !== 0">
         <p>Nous proposons ces 3 bibliothèques, la quelle préférez vous ?</p>
+        <div class="libs-cards">
+          <div class="lib-card" :class="{ selected: libraryId === library._id }" v-for="library in libraries" :key="library._id" @click="chooseLibrary(library._id)">
+            <span class="title">{{library.name}}</span>
+            <span class="adress">{{library.street}}, {{library.zipCode}}, <b>{{library.city}}</b></span>
+          </div>
+        </div>
         <div id="map"></div>
         <span id="marker-text">Vous êtes pars ici</span>
         <img id="marker" src="./../assets/map-here.png">
+        <button :disabled="libraryId === ''" @click="register()">S'inscrire</button>
       </div>
     </div>
   </div>
@@ -80,30 +87,27 @@ export default class Register extends Vue {
   private verifyPassword: string = '';
   private name: string = '';
   private birthDate: string = '';
+  private libraryId: string = '';
   private error: string = '';
   private errorField: string = '';
   private position: number[] = [];
   private poserr: string = '';
   private map?: Map;
+  private libraries?: any[] = [];
   
   private fetchLibraries() {
     axios.get('http://localhost:3000/libraries')
     .then((res) => {
-      console.log(res.data);
-
       res.data.forEach((library: any) => {
         this.addPointToMap([library.longitude, library.latitude], library.name, library._id);
-        console.log([library.longitude, library.latitude], library.name, library._id);
       });
+
+      this.orderLibraries(res.data);
     })
   }
 
   private mapInit() {
-    console.log('init')
-
     const posOk = (pos: Position) => {
-      console.log('pos ok');
-      console.log(pos);
       this.position = [pos.coords.longitude, pos.coords.latitude];
       this.$nextTick(() => {
         this.mapCreation();
@@ -163,7 +167,7 @@ export default class Register extends Vue {
     if (this.map) {
       // Création du rond
       const newElCircle = document.createElement('div');
-      newElCircle.setAttribute('id', elementId);
+      newElCircle.setAttribute('id', `${elementId}-circle`);
       newElCircle.style.height = '30px';
       newElCircle.style.width = '30px';
       newElCircle.style.borderRadius = '50%';
@@ -181,7 +185,7 @@ export default class Register extends Vue {
       // Création du label
       const newElLabel = document.createElement('div');
       newElLabel.textContent = name;
-      newElLabel.setAttribute('id', elementId);
+      newElLabel.setAttribute('id', `${elementId}-text`);
       newElLabel.style.color = 'white';
       newElLabel.style.fontSize = '11px';
       newElLabel.style.fontWeight = 'bold';
@@ -204,7 +208,7 @@ export default class Register extends Vue {
   private next() {
     const one = document.getElementById('one');
     const two = document.getElementById('two');
-    // if (this.username !== '' || this.password !== '' || this.verifyPassword !== '' || this.name !== '' || this.birthDate !== '') {
+    if (this.username !== '' || this.password !== '' || this.verifyPassword !== '' || this.name !== '' || this.birthDate !== '') {
       if (one && two) {
         one.classList.add('disapear');
         two.classList.add('visible');
@@ -216,7 +220,11 @@ export default class Register extends Vue {
         }, 500)
 
       }
-    // }
+    }
+  }
+
+  private chooseLibrary(libraryId: string) {
+    this.libraryId = libraryId;
   }
 
   private register() {
@@ -225,11 +233,16 @@ export default class Register extends Vue {
     }
     this.error = '';
     this.errorField = '';
-    axios.post('http://localhost:3000/register', { username: this.username, password: this.password })
+    axios.post('http://localhost:3000/register', {
+      username: this.username,
+      password: this.password,
+      fullName: this.name,
+      birthDate: this.birthDate,
+      libraryId: this.libraryId,
+    })
     .then((res) => {
       //@ts-ignore Pour ignorer les problèmes de type avec le store
-      this.LOGIN(res.data.userInfo);
-      this.$router.push({ name: 'new' });
+      this.$router.push({ name: 'login' });
     })
     .catch((err) => {
       console.log(err.response.status);
@@ -238,34 +251,32 @@ export default class Register extends Vue {
       this.errorField = err.response.data.field;
     })
   }
+
+  // Tri des bibiliothèques
+  private orderLibraries(libraries: any[]) {
+    let allLibs = libraries;
+    allLibs.forEach(library => {
+      library.distance = Math.sqrt(Math.pow((this.position[0] - library.longitude), 2) + Math.pow((this.position[1] - library.latitude), 2));
+    });
+
+    // Fonction de tri
+    const sortAscending = (a: { distance: number }, b: { distance: number }) => {
+      if (a.distance > b.distance) {
+        return 1;
+      } else if (b.distance > a.distance) {
+        return -1;
+      } else {
+        return 0;
+      }
+    }
+
+    this.libraries = allLibs.sort(sortAscending).slice(0, 3);
+  }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import './../scss/index.scss';
-
-#marker {
-  height: 50px;
-  width: 50px;
-  margin: -25px 0 0 -25px;
-  user-select: none;
-}
-#marker-text {
-  text-decoration: none;
-  user-select: none;
-  color: white;
-  font-size: 11pt;
-  font-weight: bold;
-  text-shadow: black 0.1em 0.1em 0.2em;
-  margin-left: -125%;
-  margin-top: 5px;
-}
-
-.lib-point {
-  width: 30px;
-  height: 30px;
-  background: red;
-}
 
 .register {
   display: flex;
@@ -323,6 +334,10 @@ export default class Register extends Vue {
       padding: 6px 16px;
       border-radius: 6px;
       box-shadow: 0 10px 27px -11px rgba(0, 0, 0, 0.3);
+
+      &:disabled {
+        background: $secondary-light;
+      }
     }
 
     .error-hint {
@@ -347,6 +362,7 @@ export default class Register extends Vue {
     #map {
       width: 600px;
       height: 400px;
+      margin-bottom: 18px;
     }
 
     .wait {
@@ -362,6 +378,77 @@ export default class Register extends Vue {
         // font-size: 14px;
         // opacity: .3;
         text-align: center;
+      }
+    }
+
+    #marker {
+      height: 50px;
+      width: 50px;
+      margin: -25px 0 0 -25px;
+      user-select: none;
+    }
+
+    #marker-text {
+      text-decoration: none;
+      user-select: none;
+      color: white;
+      font-size: 11pt;
+      font-weight: bold;
+      text-shadow: black 0.1em 0.1em 0.2em;
+      margin-left: -125%;
+      margin-top: 5px;
+    }
+
+    .position-ok {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .libs-cards {
+        display: flex;
+        justify-content: space-between;
+  
+        .lib-card {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px;
+          width: 180px;
+          background: $background-secondary;
+          margin: 0 10px 18px 10px;
+          box-shadow: 0 19px 27px -11px rgba(0, 0, 0, 0.1);
+          border-radius: 6px;
+          transition: all ease .2s;
+          cursor: pointer;
+  
+          &:first-child {
+            margin-left: 0;
+          }
+  
+          &:last-child {
+            margin-right: 0;
+          }
+
+          &.selected {
+            color: $secondary;
+            transform: scale(1.1);
+
+            .title {
+              color: $secondary;
+            }
+          }
+  
+          .title {
+            color: $primary;
+            font-size: 16px;
+            margin-bottom: 10px;
+          }
+
+          .adress {
+            font-size: 14px;
+          }
+        }
       }
     }
 
