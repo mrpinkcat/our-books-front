@@ -36,15 +36,15 @@ export default class New extends Vue {
 
   private mounted() {
     interface backBook {
-      _id: string,
-      name: string,
-      author: string,
-      publisher: string,
-      publicationDate: string,
-      coverUrl: string,
-      isbn: string,
-      pages: number,
-      libraryId: string
+      _id: string;
+      name: string;
+      author: string;
+      publisher: string;
+      publicationDate: string;
+      coverUrl: string;
+      isbn: string;
+      pages: number;
+      libraryId: string;
     }
 
     Axios.get('http://localhost:3000/books')
