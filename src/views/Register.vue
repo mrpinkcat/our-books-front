@@ -42,8 +42,10 @@
       </div>
 
       <div class="position-ok" v-if="position.length !== 0">
-        <p>Nous vous avons trouvé ces 3 bibliothèques, la quelle préférez vous ?</p>
+        <p>Nous proposons ces 3 bibliothèques, la quelle préférez vous ?</p>
         <div id="map"></div>
+        <span id="marker-text">Vous êtes pars ici</span>
+        <img id="marker" src="./../assets/map-here.png">
       </div>
     </div>
   </div>
@@ -59,8 +61,10 @@ import 'ol/ol.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
-import XYZ from 'ol/source/XYZ';
-import {fromLonLat} from 'ol/proj';
+import OSM from 'ol/source/OSM';
+import { fromLonLat, toLonLat } from 'ol/proj';
+import Overlay from 'ol/Overlay';
+import OverlayPositioning from 'ol/OverlayPositioning';
 
 @Component({
   components: {
@@ -80,9 +84,18 @@ export default class Register extends Vue {
   private errorField: string = '';
   private position: number[] = [];
   private poserr: string = '';
+  private map?: Map;
   
-  private mounted() {
-    
+  private fetchLibraries() {
+    axios.get('http://localhost:3000/libraries')
+    .then((res) => {
+      console.log(res.data);
+
+      res.data.forEach((library: any) => {
+        this.addPointToMap([library.longitude, library.latitude], library.name, library._id);
+        console.log([library.longitude, library.latitude], library.name, library._id);
+      });
+    })
   }
 
   private mapInit() {
@@ -104,17 +117,15 @@ export default class Register extends Vue {
       this.poserr = errPos.message;
     }
 
-    navigator.geolocation.getCurrentPosition(posOk, errPos, { timeout: 10000, enableHighAccuracy: true });
+    navigator.geolocation.getCurrentPosition(posOk, errPos, { enableHighAccuracy: true });
   }
 
   private mapCreation() {
-    const map = new Map({
+    this.map = new Map({
       target: 'map',
       layers: [
         new TileLayer({
-          source: new XYZ({
-            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          }),
+          source: new OSM(),
         }),
       ],
       view: new View({
@@ -123,10 +134,71 @@ export default class Register extends Vue {
       }),
     });
 
-    // setInterval(() => {
-    //   map.getView().setCenter(fromLonLat([-77.036667, 38.895]));
-    //   map.getView().setZoom(5);
-    // }, 2000);
+    const marker = document.getElementById('marker');
+    const markerText = document.getElementById('marker-text');
+
+    if (marker && markerText) {
+      // marker
+      const markerOverlay = new Overlay({
+        position: fromLonLat(this.position),
+        positioning: OverlayPositioning.CENTER_CENTER,
+        element: marker,
+        stopEvent: false,
+      });
+  
+      // label
+      const markerTextOverlay = new Overlay({
+        position: fromLonLat(this.position),
+        element: markerText,
+        stopEvent: false,
+      });
+      this.map.addOverlay(markerOverlay);
+      this.map.addOverlay(markerTextOverlay);
+
+      this.fetchLibraries();
+    }
+  }
+
+  private addPointToMap(pos: number[], name: string, elementId: string) {
+    if (this.map) {
+      // Création du rond
+      const newElCircle = document.createElement('div');
+      newElCircle.setAttribute('id', elementId);
+      newElCircle.style.height = '30px';
+      newElCircle.style.width = '30px';
+      newElCircle.style.borderRadius = '15px';
+      newElCircle.style.background = 'rgba(66, 185, 131, .4)';
+      newElCircle.style.border = 'solid rgb(66, 185, 131) 2px';
+      newElCircle.style.margin = '-15px 0 0 -15px';
+      document.getElementsByClassName('position-ok')[0].append(newElCircle);
+
+      const newPointCircle = new Overlay({
+        position: fromLonLat(pos),
+        element: newElCircle,
+        stopEvent: false,
+      });
+
+      // Création du label
+      const newElLabel = document.createElement('div');
+      newElLabel.textContent = name;
+      newElLabel.setAttribute('id', elementId);
+      newElLabel.style.color = 'white';
+      newElLabel.style.fontSize = '11px';
+      newElLabel.style.fontWeight = 'bold';
+      newElLabel.style.textShadow = 'black 0.1em 0.1em 0.2em';
+      newElLabel.style.margin = '20px 0 0 -100%';
+      document.getElementsByClassName('position-ok')[0].append(newElLabel);
+
+      const newPointLabel = new Overlay({
+        position: fromLonLat(pos),
+        element: newElLabel,
+        stopEvent: false,
+      });
+
+      // Ajouts des point au layer
+      this.map.addOverlay(newPointCircle);
+      this.map.addOverlay(newPointLabel);
+    }
   }
 
   private next() {
@@ -171,6 +243,29 @@ export default class Register extends Vue {
 
 <style lang="scss" scoped>
 @import './../scss/index.scss';
+
+#marker {
+  height: 50px;
+  width: 50px;
+  margin: -25px 0 0 -25px;
+  user-select: none;
+}
+#marker-text {
+  text-decoration: none;
+  user-select: none;
+  color: white;
+  font-size: 11pt;
+  font-weight: bold;
+  text-shadow: black 0.1em 0.1em 0.2em;
+  margin-left: -125%;
+  margin-top: 5px;
+}
+
+.lib-point {
+  width: 30px;
+  height: 30px;
+  background: red;
+}
 
 .register {
   display: flex;
