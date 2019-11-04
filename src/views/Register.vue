@@ -53,6 +53,7 @@
         <span id="marker-text">Vous êtes pars ici</span>
         <img id="marker" src="./../assets/map-here.png">
         <button :disabled="libraryId === ''" @click="register()">S'inscrire</button>
+        <span class="success title" v-if="this.ok">Enregistrement réussi. Veuillez vous connecter.</span>
       </div>
     </div>
   </div>
@@ -94,6 +95,7 @@ export default class Register extends Vue {
   private poserr: string = '';
   private map?: Map;
   private libraries?: any[] = [];
+  private ok: boolean = false;
   
   private fetchLibraries() {
     axios.get('http://localhost:3000/libraries')
@@ -241,8 +243,10 @@ export default class Register extends Vue {
       libraryId: this.libraryId,
     })
     .then((res) => {
-      //@ts-ignore Pour ignorer les problèmes de type avec le store
-      this.$router.push({ name: 'login' });
+      this.ok = true;
+      setTimeout(() => {
+        this.$router.push({ name: 'login' });
+      }, 4000);
     })
     .catch((err) => {
       console.log(err.response.status);
@@ -450,6 +454,10 @@ export default class Register extends Vue {
           }
         }
       }
+    }
+
+    .success {
+      margin-top: 18px;
     }
 
     &#one {

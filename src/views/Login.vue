@@ -14,6 +14,7 @@
       <router-link :to="{ name: 'register' }" class="acount">Pas de compte ?</router-link>
       <span class="error-hint" v-if="errorField === 'username'">Nom d'utilisateur incorrect</span>
       <span class="error-hint" v-if="errorField === 'password'">Mot de passe incorrect</span>
+      <span class="success title" v-if="ok">Connexion réussi</span>
     </div>
   </div>
 </template>
@@ -37,6 +38,7 @@ export default class Login extends Vue {
   private password: string = '';
   private error: string = '';
   private errorField: string = '';
+  private ok: boolean = false;
 
   private login() {
     this.error = '';
@@ -44,9 +46,12 @@ export default class Login extends Vue {
     if (this.username && this.password) {
       axios.post('http://localhost:3000/auth', { username: this.username, password: this.password })
       .then((res) => {
+        this.ok = true;
         //@ts-ignore Pour ignorer les problèmes de type avec le store
         this.LOGIN(res.data.userInfo);
-        this.$router.push({ name: 'new' });
+        setTimeout(() => {
+          this.$router.push({ name: 'new' });
+        }, 3000);
       })
       .catch((err) => {
         console.log(err.response.status);
@@ -121,7 +126,7 @@ export default class Login extends Vue {
     .error {
       border-color: red;
     }
-    
+
     .acount {
       margin-top: 20px;
       font-size: 14px;
@@ -130,6 +135,10 @@ export default class Login extends Vue {
       &:visited {
         color: $secondary;
       }
+    }
+
+    .success {
+      margin-top: 18px;
     }
   }
 }
