@@ -2,10 +2,12 @@
   <div class="new">
     <span class="page-title">Les nouveautés</span>
     <div class="book-card" v-for="book in books" :key="book._id">
+      <span class="isbn">{{book.isbn}}</span>
       <span class="title">{{book.name}}</span>
       <span class="author">{{book.author}}</span>
       <span class="publisher">{{book.publicationDateDay}}/{{book.publicationDateMonth}}/{{book.publicationDateYear}}</span>
       <span class="quatity">Disponible : {{book._ids.length}}</span>
+      <span class="biraries">Bibiliothèques : {{book.libraryIds}}</span>
       <img :src="book.coverUrl"/>
     </div>
   </div>
@@ -52,48 +54,57 @@ export default class New extends Vue {
 
       let previousBookRealIndex: number;
 
+      console.log(res.data);
+
       res.data.forEach((book: backBook, index: number) => {
-
-        console.log(index);
-
         const bookPublicationDate = new Date(book.publicationDate);
-        const newBook: bookInterface = {
-          _ids: [],
-          name: book.name,
-          author: book.author,
-          publisher: book.publisher,
-          publicationDateDay: bookPublicationDate.getDate(),
-          publicationDateMonth: bookPublicationDate.getMonth() + 1,
-          publicationDateYear: bookPublicationDate.getUTCFullYear(),
-          coverUrl: book.coverUrl,
-          isbn: book.isbn,
-          pages: book.pages,
-          libraryIds: [],
+
+        // Si c'est le tout premier livre on l'ajoute directement
+        if (index === 0) {
+          this.books.push({
+            _ids: [book._id],
+            name: book.name,
+            author: book.author,
+            publisher: book.publisher,
+            publicationDateDay: bookPublicationDate.getDate(),
+            publicationDateMonth: bookPublicationDate.getMonth() + 1,
+            publicationDateYear: bookPublicationDate.getUTCFullYear(),
+            coverUrl: book.coverUrl,
+            isbn: book.isbn,
+            pages: book.pages,
+            libraryIds: [book.libraryId],
+          });
+        } else {
+          let allreadyAdd = false;
+          this.books.forEach((storedBook, storedIndex) => {
+            console.log('this.books.length - 1', this.books.length - 1, 'storedIndex', storedIndex);
+            console.log('storedBook.isbn', storedBook.isbn, 'book.isbn', book.isbn);
+            // Si on trouve un livre qui y est déjà on le push
+            if (storedBook.isbn === book.isbn && !allreadyAdd) {
+              storedBook._ids.push(book._id);
+              storedBook.libraryIds.push(book.libraryId);
+              allreadyAdd = true;
+              console.log('push')
+            } else if (this.books.length - 1 === storedIndex && !allreadyAdd) {
+              this.books.push({
+                _ids: [book._id],
+                name: book.name,
+                author: book.author,
+                publisher: book.publisher,
+                publicationDateDay: bookPublicationDate.getDate(),
+                publicationDateMonth: bookPublicationDate.getMonth() + 1,
+                publicationDateYear: bookPublicationDate.getUTCFullYear(),
+                coverUrl: book.coverUrl,
+                isbn: book.isbn,
+                pages: book.pages,
+                libraryIds: [book.libraryId],
+              });
+              console.log('new')
+            } else {
+              console.log('nop')
+            }
+          });
         }
-
-        // if (!previousBookRealIndex) {
-        //   newBook.libraryIds.push(book.libraryId);
-        //   newBook._ids.push(book._id);
-
-        //   previousBookRealIndex = this.books.push(newBook) - 1;
-        // } else {
-          if (this.books.length > 1) {
-            this.books.forEach((bookShowed: bookInterface) => {
-              if (bookShowed.isbn === book.isbn) {
-                bookShowed._ids.push(book._id);
-                bookShowed.libraryIds.push(book.libraryId);
-              } else {
-                newBook.libraryIds.push(book.libraryId);
-                newBook._ids.push(book._id);
-                this.books.push(newBook);
-              }
-            });
-          } else {
-            newBook.libraryIds.push(book.libraryId);
-            newBook._ids.push(book._id);
-            this.books.push(newBook);
-          }
-        // }
       });
     });
   }
