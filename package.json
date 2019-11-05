@@ -15,7 +15,8 @@
     "vue-class-component": "^6.0.0",
     "vue-observe-visibility": "^0.4.4",
     "vue-property-decorator": "^8.0.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "vue-slider-component": "^3.0.42"
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

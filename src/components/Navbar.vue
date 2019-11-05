@@ -12,7 +12,10 @@
     </div>
     <transition name=""></transition>
     <div class="filter-dropdown" :class="{ active: filterDropdownActive }">
-      fff
+      <input type="text" placeholder="Auteur">
+      <v-calendar :start="start" :end="end" :span="span"/>
+      <vue-slider v-model="pageSlider"></vue-slider>
+      <input type="text" placeholder="Localisation de votre bibliothèque">
     </div>
     <div class="user-container">
       <span>John Doé</span>
@@ -39,8 +42,14 @@ import Logo from './Logo.vue';
   },
 })
 export default class Navbar extends Vue {
-  userDropdownActive: boolean = false;
-  filterDropdownActive: boolean = false;
+  private userDropdownActive: boolean = false;
+  private filterDropdownActive: boolean = false;
+  private pageSlider: number[] = [0, 50];
+
+  private start: any = '';
+  private end: any = '';
+  private span: any = '';
+
 }
 </script>
 
