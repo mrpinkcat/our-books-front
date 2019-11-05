@@ -7,18 +7,18 @@
       </svg>
       <div class="line"></div>
     </div>
-    <div class="text">
+    <div class="text" v-if="text">
       <span>Our Books</span>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
+import { Vue, Component, Prop } from 'vue-property-decorator';
 
 @Component
 export default class Logo extends Vue {
-
+  @Prop({ default: true }) text!: boolean;
 }
 </script>
 

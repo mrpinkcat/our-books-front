@@ -1,12 +1,14 @@
 <template>
   <div class="navbar">
     <div class="logo-container">
-      <Logo/>
+      <router-link :to="{ name: 'new' }">
+        <Logo/>
+      </router-link>
     </div>
     <div class="search-container">
       <img src="./../assets/search.png" alt="">
       <input type="text" placeholder="Recherche ...">
-      <button>
+      <button style="display: none;">
         <img id="down-filter" src="./../assets/filter.png" :class="{ active: filterDropdownActive }" @click="filterDropdownActive = !filterDropdownActive">
       </button>
     </div>
@@ -17,28 +19,42 @@
       <vue-slider v-model="pageSlider"></vue-slider>
       <input type="text" placeholder="Localisation de votre bibliothèque">
     </div>
-    <div class="user-container">
-      <span>John Doé</span>
-      <button>
-        <img id="down-arrow" src="./../assets/down-arrow.png" :class="{ active: userDropdownActive }" @click="userDropdownActive = !userDropdownActive">
+    <div class="user-container" v-if="logged">
+      <button @click="userDropdownActive = !userDropdownActive">
+        <span>{{fullName}}</span>
+        <img id="down-arrow" src="./../assets/down-arrow.png" :class="{ active: userDropdownActive }">
       </button>
     </div>
-    <transition name=""></transition>
-    <div class="user-dropdown" :class="{ active: userDropdownActive }">
-      <a href="">Mon compte</a>
-      <a href="">Déconexion</a>
-      <a href="">Admin</a>
+    <div class="user-container" v-if="!logged">
+      <button @click="$router.push({ name: 'login' })">
+        <span>Connexion</span>
+        <img id="down-arrow" src="./../assets/login.png" >
+      </button>
     </div>
+    <transition name="">
+      <div class="user-dropdown" :class="{ active: userDropdownActive }" v-if="logged">
+        <a href="">Mon compte</a>
+        <a @click="DISCONNECT()">Déconexion</a>
+        <router-link :to="{ name: 'admin' }" v-if="rank === 'admin'">Admin</router-link>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Logo from './Logo.vue';
+import { mapGetters, mapMutations } from 'vuex';
 
 @Component({
   components: {
     Logo,
+  },
+  computed: {
+    ...mapGetters(['fullName']),
+    ...mapGetters(['rank']),
+    ...mapGetters(['logged']),
+    ...mapMutations(['DISCONNECT']),
   },
 })
 export default class Navbar extends Vue {
@@ -68,6 +84,10 @@ export default class Navbar extends Vue {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    a {
+      text-decoration: none;
+    }
   }
 
   .search-container {
@@ -115,11 +135,17 @@ export default class Navbar extends Vue {
     align-items: center;
 
     button {
-      margin-left: 8px;
       display: flex;
       padding: 0;
+      align-items: center;
+      height: 100%;
+
+      span {
+        font-size: 18px;
+      }
 
       img#down-arrow {
+        margin-left: 8px;
         width: 20px;
         height: 20px;
         transition: ease .2s all;
