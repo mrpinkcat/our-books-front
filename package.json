@@ -18,12 +18,9 @@
     "vue-observe-visibility": "^0.4.4",
     "vue-property-decorator": "^8.0.0",
     "vue-router": "^3.0.1",
-<<<<<<< HEAD
-    "vue-slider-component": "^3.0.42"
-=======
+    "vue-slider-component": "^3.0.42",
     "vuex": "^3.1.1",
     "vuex-persist": "^2.1.1"
->>>>>>> 82a8aaa7e38c29d6411a5d1d0253514c6a4386fd
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",

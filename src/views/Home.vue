@@ -51,7 +51,8 @@ export default class Home extends Vue {
 
       .left-menu {
         background: $background-secondary;
-        width: 250px;
+        min-width: 250px;
+        max-width: 250px;
       }
 
       .content {

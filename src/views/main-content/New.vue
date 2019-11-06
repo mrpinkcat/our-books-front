@@ -1,21 +1,17 @@
 <template>
   <div class="new">
     <span class="page-title">Les nouveautés</span>
-    <div class="book-card" v-for="book in books" :key="book._id">
-      <span class="isbn">{{book.isbn}}</span>
-      <span class="title">{{book.name}}</span>
-      <span class="author">{{book.author}}</span>
-      <span class="publisher">{{book.publicationDateDay}}/{{book.publicationDateMonth}}/{{book.publicationDateYear}}</span>
-      <span class="quatity">Disponible : {{book._ids.length}}</span>
-      <span class="biraries">Bibiliothèques : {{book.libraryIds}}</span>
-      <img :src="book.coverUrl"/>
+    <div class="cards" v-if="books.length > 0">
+      <BookCard v-for="book in books" :book="book" :key="book._ids[0]"></BookCard>
     </div>
+    <span v-else>Chargement...</span>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Axios from 'axios';
+import BookCard from './../../components/BookCard.vue';
 
 interface bookInterface {
   _ids: string[],
@@ -28,10 +24,15 @@ interface bookInterface {
   coverUrl: string,
   isbn: string,
   pages: number,
+  description: string,
   libraryIds: string[],
 }
 
-@Component
+@Component({
+  components: {
+    BookCard,
+  },
+})
 export default class New extends Vue {
 
   private books: Array<bookInterface> = [];
@@ -47,6 +48,7 @@ export default class New extends Vue {
       isbn: string;
       pages: number;
       libraryId: string;
+      description: string;
     }
 
     Axios.get('http://localhost:3000/books')
@@ -70,6 +72,7 @@ export default class New extends Vue {
             coverUrl: book.coverUrl,
             isbn: book.isbn,
             pages: book.pages,
+            description: book.description,
             libraryIds: [book.libraryId],
           });
         } else {
@@ -92,6 +95,7 @@ export default class New extends Vue {
                 coverUrl: book.coverUrl,
                 isbn: book.isbn,
                 pages: book.pages,
+                description: book.description,
                 libraryIds: [book.libraryId],
               });
             } else {
@@ -116,15 +120,10 @@ export default class New extends Vue {
     margin-bottom: 50px;
   }
 
-  .book-card {
-    margin-bottom: 30px;
+  .cards {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    img {
-      height: 50px;
-      width: 50px;
-    }
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 }
 </style>
