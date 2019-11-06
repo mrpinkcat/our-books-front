@@ -31,7 +31,7 @@ export default class BookCard extends Vue {
   position: relative;
   border-radius: 10px;
   box-shadow: 0 10px 12px -14px rgba(0, 0, 0, 0.3);
-  width: calc(49% - ((32px * 2));
+  width: calc(49% - ((32px * 2)));
 
   img {
     margin-right: 30px;
