@@ -10,6 +10,8 @@ import Trends from './views/main-content/Trends.vue';
 import Short from './views/main-content/Short.vue';
 import Long from './views/main-content/Long.vue';
 import Favorites from './views/main-content/Favorites.vue';
+import Book from './views/main-content/Book.vue';
+import Search from './views/main-content/Search.vue';
 
 import NotFound from './views/NotFound.vue';
 
@@ -47,6 +49,16 @@ export default new Router({
           path: 'favorites',
           name: 'favorites',
           component: Favorites,
+        },
+        {
+          path: 'book/:isbn',
+          name: 'book',
+          component: Book,
+        },
+        {
+          path: 'search/:q',
+          name: 'search',
+          component: Search,
         },
       ],
     },

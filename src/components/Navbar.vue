@@ -7,7 +7,7 @@
     </div>
     <div class="search-container">
       <img src="./../assets/search.png" alt="">
-      <input type="text" placeholder="Recherche ...">
+      <input @keyup.enter="search()" v-model="searchText" type="text" placeholder="Recherche ...">
       <button style="display: none;">
         <img id="down-filter" src="./../assets/filter.png" :class="{ active: filterDropdownActive }" @click="filterDropdownActive = !filterDropdownActive">
       </button>
@@ -30,7 +30,7 @@
     </div>
     <transition name="">
       <div class="user-dropdown" :class="{ active: userDropdownActive }" v-if="logged">
-        <a href="">Mon compte</a>
+        <a href="" v-if="false">Mon compte</a>
         <a @click="DISCONNECT()">Déconexion</a>
         <router-link :to="{ name: 'admin' }" v-if="rank === 'admin'">Admin</router-link>
       </div>
@@ -55,8 +55,14 @@ import { mapGetters, mapMutations } from 'vuex';
   },
 })
 export default class Navbar extends Vue {
-  userDropdownActive: boolean = false;
-  filterDropdownActive: boolean = false;
+  private searchText: string = '';
+  private userDropdownActive: boolean = false;
+  private filterDropdownActive: boolean = false;
+
+  private search() {
+    this.$router.push({ name: 'search', params: { q: this.searchText }});
+    this.searchText = '';
+  }
 }
 </script>
 
@@ -167,6 +173,7 @@ export default class Navbar extends Vue {
       text-decoration: none;
       color: $primary;
       margin: 5px 0;
+      cursor: pointer;
     }
 
   }
@@ -192,6 +199,7 @@ export default class Navbar extends Vue {
       text-decoration: none;
       color: $primary;
       margin: 5px 0;
+      padding: 0;
     }
 
   }

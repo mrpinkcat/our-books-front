@@ -96,7 +96,7 @@ export default class Register extends Vue {
   private map?: Map;
   private libraries?: any[] = [];
   private ok: boolean = false;
-  
+
   private fetchLibraries() {
     axios.get('http://localhost:3000/libraries')
     .then((res) => {
@@ -106,6 +106,9 @@ export default class Register extends Vue {
 
       this.orderLibraries(res.data);
     })
+    .catch((err) => {
+      console.error('lib fetch error');
+    });
   }
 
   private mapInit() {
@@ -114,14 +117,14 @@ export default class Register extends Vue {
       this.$nextTick(() => {
         this.mapCreation();
       });
-    }
+    };
 
-    const errPos = (errPos: PositionError) => {
+    const errPos = (errPosInfo: PositionError) => {
       console.log('pos err');
-      console.log(errPos);
+      console.log(errPosInfo);
 
-      this.poserr = errPos.message;
-    }
+      this.poserr = errPosInfo.message;
+    };
 
     navigator.geolocation.getCurrentPosition(posOk, errPos, { enableHighAccuracy: true });
   }
@@ -151,7 +154,7 @@ export default class Register extends Vue {
         element: marker,
         stopEvent: false,
       });
-  
+
       // label
       const markerTextOverlay = new Overlay({
         position: fromLonLat(this.position),
@@ -219,7 +222,7 @@ export default class Register extends Vue {
           one.style.display = 'none';
           // Création de la map
           this.mapInit();
-        }, 500)
+        }, 500);
 
       }
     }
@@ -231,35 +234,36 @@ export default class Register extends Vue {
 
   private register() {
     if (this.username !== '' || this.password !== '' || this.verifyPassword !== '' || this.name !== '' || this.birthDate !== '') {
-
+      if (this.password === this.verifyPassword) {
+        this.error = '';
+        this.errorField = '';
+        axios.post('http://localhost:3000/register', {
+          username: this.username,
+          password: this.password,
+          fullName: this.name,
+          birthDate: this.birthDate,
+          libraryId: this.libraryId,
+        })
+        .then((res) => {
+          this.ok = true;
+          setTimeout(() => {
+            this.$router.push({ name: 'login' });
+          }, 4000);
+        })
+        .catch((err) => {
+          console.error(err.response.status);
+          console.error(err.response.data);
+          this.error = err.response.data.error;
+          this.errorField = err.response.data.field;
+        });
+      }
     }
-    this.error = '';
-    this.errorField = '';
-    axios.post('http://localhost:3000/register', {
-      username: this.username,
-      password: this.password,
-      fullName: this.name,
-      birthDate: this.birthDate,
-      libraryId: this.libraryId,
-    })
-    .then((res) => {
-      this.ok = true;
-      setTimeout(() => {
-        this.$router.push({ name: 'login' });
-      }, 4000);
-    })
-    .catch((err) => {
-      console.log(err.response.status);
-      console.log(err.response.data);
-      this.error = err.response.data.error;
-      this.errorField = err.response.data.field;
-    })
   }
 
   // Tri des bibiliothèques
   private orderLibraries(libraries: any[]) {
-    let allLibs = libraries;
-    allLibs.forEach(library => {
+    const allLibs = libraries;
+    allLibs.forEach((library) => {
       library.distance = Math.sqrt(Math.pow((this.position[0] - library.longitude), 2) + Math.pow((this.position[1] - library.latitude), 2));
     });
 
@@ -272,7 +276,7 @@ export default class Register extends Vue {
       } else {
         return 0;
       }
-    }
+    };
 
     this.libraries = allLibs.sort(sortAscending).slice(0, 3);
   }
