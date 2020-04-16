@@ -98,7 +98,7 @@ export default class Register extends Vue {
   private ok: boolean = false;
 
   private fetchLibraries() {
-    axios.get('http://localhost:3000/libraries')
+    axios.get('http://pink.zapto.org:3001/libraries')
     .then((res) => {
       res.data.forEach((library: any) => {
         this.addPointToMap([library.longitude, library.latitude], library.name, library._id);
@@ -237,7 +237,7 @@ export default class Register extends Vue {
       if (this.password === this.verifyPassword) {
         this.error = '';
         this.errorField = '';
-        axios.post('http://localhost:3000/register', {
+        axios.post('http://pink.zapto.org:3001/register', {
           username: this.username,
           password: this.password,
           fullName: this.name,

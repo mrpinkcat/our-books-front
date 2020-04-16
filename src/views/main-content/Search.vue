@@ -2,8 +2,8 @@
   <div class="search">
     <span class="title">Votre recherche</span>
 
-    <div class="found" v-if="books.length > 0">
-      <span class="book" v-for="book in books" :key="book.isbn">{{book.name}} - {{book._ids.length}}</span>
+    <div class="cards" v-if="books.length > 0">
+      <BookCard :book="book" v-for="book in books" :key="book._ids[0]"></BookCard>
     </div>
 
     <div class="not-found" v-if="books.length === 0">
@@ -15,6 +15,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator';
 import Axios from 'axios';
+import BookCard from './../../components/BookCard.vue';
 
 interface bookInterface {
   _ids: string[],
@@ -28,6 +29,7 @@ interface bookInterface {
   isbn: string,
   pages: number,
   libraryIds: string[],
+  description: string,
 }
 
 interface backBook {
@@ -40,14 +42,19 @@ interface backBook {
   isbn: string;
   pages: number;
   libraryId: string;
+  description: string;
 }
 
-@Component
+@Component({
+  components: {
+    BookCard,
+  },
+})
 export default class Search extends Vue {
   private books: Array<bookInterface> = [];
 
   private mounted() {
-    Axios.get('http://localhost:3000/books', { params: { q: this.$route.params.q }})
+    Axios.get('http://pink.zapto.org:3001/books', { params: { q: this.$route.params.q }})
     .then((res) => {
 
       let previousBookRealIndex: number;
@@ -68,6 +75,7 @@ export default class Search extends Vue {
             coverUrl: book.coverUrl,
             isbn: book.isbn,
             pages: book.pages,
+            description: book.description,
             libraryIds: [book.libraryId],
           });
         } else {
@@ -90,6 +98,7 @@ export default class Search extends Vue {
                 coverUrl: book.coverUrl,
                 isbn: book.isbn,
                 pages: book.pages,
+                description: book.description,
                 libraryIds: [book.libraryId],
               });
             } else {
@@ -112,6 +121,14 @@ export default class Search extends Vue {
 
   .title {
     font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .cards {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: calc(100% - 64px);
   }
 }
 </style>

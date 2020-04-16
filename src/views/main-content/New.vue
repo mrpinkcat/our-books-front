@@ -51,7 +51,7 @@ export default class New extends Vue {
       description: string;
     }
 
-    Axios.get('http://localhost:3000/books')
+    Axios.get('http://pink.zapto.org:3001/books')
     .then((res) => {
 
       let previousBookRealIndex: number;

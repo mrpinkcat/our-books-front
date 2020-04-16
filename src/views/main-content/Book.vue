@@ -12,7 +12,7 @@
         <span class="error" v-if="errorBorrow">Ho! Il y a eu une erreur, il se pourait que vous avez déjà emprunté un livre.</span>
         <span class="success" v-if="successBorrow && !errorBorrow">Super! Votre livre vous attends dans votre bibiliothèque.</span>
         <span class="available" v-if="canBorrow && !successBorrow && !errorBorrow">Ce livre est disponible dans votre bibiliothèque.</span>
-        <span class="not available" v-if="!canBorrow && !successBorrow && !errorBorrow">Ce livre n'est pas disponible dans votre bibiliothèque.</span>
+        <span class="not available" v-if="!canBorrow && !successBorrow && !errorBorrow && logged">Ce livre n'est pas disponible dans votre bibiliothèque.</span>
         <button v-if="logged" :disabled="!canBorrow || successBorrow || errorBorrow" @click="borrow()">Emprunter</button>
         <router-link v-if="!logged" tag="button" :to="{ name: 'login'}">Connectez vous pour emprunter ce livre</router-link>
       </div>
@@ -42,7 +42,7 @@ export default class Book extends Vue {
 
   private mounted() {
     // Récupération des livre depuis le back
-    Axios.get('http://localhost:3000/books', { params: {
+    Axios.get('http://pink.zapto.org:3001/books', { params: {
       isbn: this.$route.params.isbn,
     }})
     .then((res) => {
@@ -61,7 +61,7 @@ export default class Book extends Vue {
   }
 
   private borrow() {
-    Axios.post('http://localhost:3000/borrow', {
+    Axios.post('http://pink.zapto.org:3001/borrow', {
       id: this.canBorrow,
         // @ts-ignore store
       libraryId: this.libraryId,
@@ -98,6 +98,7 @@ export default class Book extends Vue {
   .book-info {
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 
     .title {
       font-weight: bold;

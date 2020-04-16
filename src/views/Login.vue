@@ -44,7 +44,7 @@ export default class Login extends Vue {
     this.error = '';
     this.errorField = '';
     if (this.username && this.password) {
-      axios.post('http://localhost:3000/auth', { username: this.username, password: this.password })
+      axios.post('http://pink.zapto.org:3001/auth', { username: this.username, password: this.password })
       .then((res) => {
         this.ok = true;
         //@ts-ignore Pour ignorer les problèmes de type avec le store
