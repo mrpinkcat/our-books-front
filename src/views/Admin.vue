@@ -48,7 +48,7 @@ export default class Admin extends Vue {
   private returnId: string = '';
 
   private mounted() {
-    Axios.get('http://pink.zapto.org:3001/libraries')
+    Axios.get('https://pink.zapto.org/libraries')
     .then((res) => {
       this.libraries = res.data;
     })
@@ -58,7 +58,7 @@ export default class Admin extends Vue {
   }
 
   private addBook() {
-    Axios.post(`http://pink.zapto.org:3001/books/${this.isbn}`, {
+    Axios.post(`https://pink.zapto.org/books/${this.isbn}`, {
       numberOfBooks: 1,
       librariesIds: [this.choosenLibrary],
       category: 'placeholder',
@@ -79,7 +79,7 @@ export default class Admin extends Vue {
   }
 
   private returnBook() {
-    Axios.post('http://pink.zapto.org:3001/return', {
+    Axios.post('https://pink.zapto.org/return', {
       borrowUsername: this.returnUsername,
     }, { headers: {
       // @ts-ignore store

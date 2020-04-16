@@ -42,7 +42,7 @@ export default class Book extends Vue {
 
   private mounted() {
     // Récupération des livre depuis le back
-    Axios.get('http://pink.zapto.org:3001/books', { params: {
+    Axios.get('https://pink.zapto.org/books', { params: {
       isbn: this.$route.params.isbn,
     }})
     .then((res) => {
@@ -61,7 +61,7 @@ export default class Book extends Vue {
   }
 
   private borrow() {
-    Axios.post('http://pink.zapto.org:3001/borrow', {
+    Axios.post('https://pink.zapto.org/borrow', {
       id: this.canBorrow,
         // @ts-ignore store
       libraryId: this.libraryId,
