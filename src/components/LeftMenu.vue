@@ -83,7 +83,7 @@ export default class LeftMenu extends Vue {
     // @ts-ignore
     const libraryId: string = this.libraryId;
 
-    Axios.get(`${process.env.BACK_END_ADDRESS}/libraries`)
+    Axios.get(`${process.env.VUE_APP_BACK_END_ADDRESS}/libraries`)
     .then((res) => {
       const libraries: Array<{
         _id: string,

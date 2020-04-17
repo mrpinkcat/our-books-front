@@ -51,7 +51,7 @@ export default class New extends Vue {
       description: string;
     }
 
-    Axios.get(`${process.env.BACK_END_ADDRESS}/books`)
+    Axios.get(`${process.env.VUE_APP_BACK_END_ADDRESS}/books`)
     .then((res) => {
 
       let previousBookRealIndex: number;

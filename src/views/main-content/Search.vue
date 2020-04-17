@@ -54,7 +54,7 @@ export default class Search extends Vue {
   private books: Array<bookInterface> = [];
 
   private mounted() {
-    Axios.get(`${process.env.BACK_END_ADDRESS}/books`, { params: { q: this.$route.params.q }})
+    Axios.get(`${process.env.VUE_APP_BACK_END_ADDRESS}/books`, { params: { q: this.$route.params.q }})
     .then((res) => {
 
       let previousBookRealIndex: number;

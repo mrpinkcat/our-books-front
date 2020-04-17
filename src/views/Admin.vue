@@ -48,7 +48,7 @@ export default class Admin extends Vue {
   private returnId: string = '';
 
   private mounted() {
-    Axios.get(`${process.env.BACK_END_ADDRESS}/libraries`)
+    Axios.get(`${process.env.VUE_APP_BACK_END_ADDRESS}/libraries`)
     .then((res) => {
       this.libraries = res.data;
     })
@@ -58,7 +58,7 @@ export default class Admin extends Vue {
   }
 
   private addBook() {
-    Axios.post(`${process.env.BACK_END_ADDRESS}/books/${this.isbn}`, {
+    Axios.post(`${process.env.VUE_APP_BACK_END_ADDRESS}/books/${this.isbn}`, {
       numberOfBooks: 1,
       librariesIds: [this.choosenLibrary],
       category: 'placeholder',
@@ -79,7 +79,7 @@ export default class Admin extends Vue {
   }
 
   private returnBook() {
-    Axios.post(`${process.env.BACK_END_ADDRESS}/return`, {
+    Axios.post(`${process.env.VUE_APP_BACK_END_ADDRESS}/return`, {
       borrowUsername: this.returnUsername,
     }, { headers: {
       // @ts-ignore store
