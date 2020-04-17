@@ -29,25 +29,25 @@
       </router-link> -->
     </div>
     
-    <!-- <div class="title-container">
-      <span class="title">Catégories</span>
-      <span class="type-quantity">(2)</span>
+    <div class="title-container">
+      <!-- <span class="title">Catégories</span>
+      <span class="type-quantity">(2)</span> -->
     </div>
 
     <div class="types-buttons">
-      <button class="type">
+      <!-- <button class="type">
         <span class="type-name">Romans Policier</span>
         <span class="book-quantity">99</span>
       </button>
       <button class="type">
         <span class="type-name">Nouvelles</span>
         <span class="book-quantity">99</span>
-      </button>
-    </div> -->
+      </button> -->
+    </div>
 
     <div class="lib-title-container" v-if="logged">
       <span class="title">Ma Bibliothèque</span>
-      <button class="change">Modifier</button>
+      <!-- <button class="change">Modifier</button> -->
     </div>
 
     <div class="chosen-library" v-if="logged">
