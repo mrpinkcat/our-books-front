@@ -9,10 +9,10 @@
       </span>
       <span class="desc">{{books[0].description}}</span>
       <div class="borrow-card">
-        <span class="error" v-if="errorBorrow">Ho! Il y a eu une erreur, il se pourait que vous avez déjà emprunté un livre.</span>
-        <span class="success" v-if="successBorrow && !errorBorrow">Super! Votre livre vous attends dans votre bibiliothèque.</span>
-        <span class="available" v-if="canBorrow && !successBorrow && !errorBorrow">Ce livre est disponible dans votre bibiliothèque.</span>
-        <span class="not available" v-if="!canBorrow && !successBorrow && !errorBorrow && logged">Ce livre n'est pas disponible dans votre bibiliothèque.</span>
+        <span class="error" v-if="errorBorrow">Ho! Il y a eu une erreur, il se pourrait que vous avez déjà emprunté un livre.</span>
+        <span class="success" v-if="successBorrow && !errorBorrow">Super! Votre livre vous attends dans votre bibliothèque.</span>
+        <span class="available" v-if="canBorrow && !successBorrow && !errorBorrow">Ce livre est disponible dans votre bibliothèque.</span>
+        <span class="not available" v-if="!canBorrow && !successBorrow && !errorBorrow && logged">Ce livre n'est pas disponible dans votre bibliothèque.</span>
         <button v-if="logged" :disabled="!canBorrow || successBorrow || errorBorrow" @click="borrow()">Emprunter</button>
         <router-link v-if="!logged" tag="button" :to="{ name: 'login'}">Connectez vous pour emprunter ce livre</router-link>
       </div>

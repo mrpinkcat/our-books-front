@@ -260,7 +260,7 @@ export default class Register extends Vue {
     }
   }
 
-  // Tri des bibiliothèques
+  // Tri des bibliothèques
   private orderLibraries(libraries: any[]) {
     const allLibs = libraries;
     allLibs.forEach((library) => {
