@@ -8,7 +8,7 @@
         Nouveautés
       </router-link>
 
-      <router-link tag="button" :to="{ name: 'trends' }">
+      <!-- <router-link tag="button" :to="{ name: 'trends' }">
         <img src="./../assets/trending.svg" alt="">
         Tendances
       </router-link>
@@ -26,10 +26,10 @@
       <router-link tag="button" :to="{ name: 'favorites' }">
         <img src="./../assets/favorites.svg" alt="">
         Nos coup de coeur
-      </router-link>
+      </router-link> -->
     </div>
     
-    <div class="title-container">
+    <!-- <div class="title-container">
       <span class="title">Catégories</span>
       <span class="type-quantity">(2)</span>
     </div>
@@ -37,13 +37,13 @@
     <div class="types-buttons">
       <button class="type">
         <span class="type-name">Romans Policier</span>
-        <span class="book-quantity">666</span>
+        <span class="book-quantity">99</span>
       </button>
       <button class="type">
         <span class="type-name">Nouvelles</span>
-        <span class="book-quantity">69</span>
+        <span class="book-quantity">99</span>
       </button>
-    </div>
+    </div> -->
 
     <div class="lib-title-container" v-if="logged">
       <span class="title">Ma Bibliothèque</span>
